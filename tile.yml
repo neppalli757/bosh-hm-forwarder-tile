@@ -1,0 +1,53 @@
+---
+# section 1 - metadata
+name: bosh-hm-forwarder
+icon_file: resources/health-monitor.png
+label: HM Forwarder
+description: Send BOSH VM Health logs to the Firehose
+# section 2 - packages
+packages:
+- name: loggregator
+  type: bosh-release
+  path: https://bosh.io/d/github.com/cloudfoundry/loggregator
+- name: bosh-hm-forwarder
+  type: bosh-release
+  path: https://bosh.io/d/github.com/cloudfoundry/bosh-hm-forwarder-release
+  # section 3 - job config
+  jobs:
+  - name: hm-forwarder
+    templates:
+    - name: boshhmforwarder
+      release: bosh-hm-forwarder
+    - name: metron_agent
+      release: loggregator
+    memory: 4096
+    ephemeral_disk: 8192
+    cpu: 2
+    static_ip: 1
+    dynamic_ip: 0
+    single_az_only: true
+    instance_definition:
+      configurable: false
+      default: 1
+    properties:
+      boshhmforwarder:
+        incoming_port: 13321
+      loggregator_endpoint:
+        shared_secret: (( ..cf.doppler.shared_secret_credentials.password ))
+      metron_endpoint:
+        shared_secret: (( ..cf.doppler.shared_secret_credentials.password ))
+      metron_agent:
+        deployment: cf
+      loggregator:
+        etcd:
+          machines: (( ..cf.etcd_server.ips ))
+
+# section 4 - prerequisite tiles
+requires_product_versions:
+- name: cf
+  version: '~> 1.8'
+
+# section 5 - stemcell info
+stemcell_criteria:
+  os: 'ubuntu-trusty'
+  version: '3263'
