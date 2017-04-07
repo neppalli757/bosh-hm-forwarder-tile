@@ -1,10 +1,8 @@
 ---
-# section 1 - metadata
 name: bosh-hm-forwarder
 icon_file: resources/health-monitor.png
 label: HM Forwarder
 description: Send BOSH VM Health logs to the Firehose
-# section 2 - packages
 packages:
 - name: loggregator
   type: bosh-release
@@ -12,7 +10,6 @@ packages:
 - name: bosh-hm-forwarder
   type: bosh-release
   path: https://bosh.io/d/github.com/cloudfoundry/bosh-hm-forwarder-release
-  # section 3 - job config
   jobs:
   - name: hm-forwarder
     templates:
@@ -40,14 +37,12 @@ packages:
         deployment: cf
       loggregator:
         etcd:
-          machines: (( ..cf.etcd_server.ips ))
+          machines: (( ..cf.etcd_tls_server.ips ))
 
-# section 4 - prerequisite tiles
 requires_product_versions:
 - name: cf
-  version: '~> 1.8'
+  version: '~> 1.10'
 
-# section 5 - stemcell info
 stemcell_criteria:
   os: 'ubuntu-trusty'
-  version: '3263'
+  version: '3363'
