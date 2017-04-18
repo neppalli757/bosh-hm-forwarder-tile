@@ -38,6 +38,11 @@ packages:
       loggregator:
         etcd:
           machines: (( ..cf.etcd_tls_server.ips ))
+        tls:
+        ca_cert: (( $ops_manager.ca_certificate ))
+        metron:
+          cert: (( ..cf.doppler.metron_tls_cert.cert_pem ))
+          key: (( ..cf.doppler.metron_tls_cert.private_key_pem ))
 
 stemcell_criteria:
   os: 'ubuntu-trusty'
