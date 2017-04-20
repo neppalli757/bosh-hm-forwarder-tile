@@ -10,6 +10,9 @@ packages:
 - name: bosh-hm-forwarder
   type: bosh-release
   path: https://bosh.io/d/github.com/cloudfoundry/bosh-hm-forwarder-release
+- name: consul-release
+  type: bosh-release
+  path: https://bosh.io/d/github.com/cloudfoundry-incubator/consul-release?v=159
   jobs:
   - name: hm-forwarder
     templates:
@@ -17,6 +20,8 @@ packages:
       release: bosh-hm-forwarder
     - name: metron_agent
       release: loggregator
+    - name: consul_agent
+      release: consul
     memory: 4096
     ephemeral_disk: 8192
     cpu: 2
@@ -43,6 +48,18 @@ packages:
           metron:
             cert: (( ..cf.doppler.metron_tls_cert.cert_pem ))
             key: (( ..cf.doppler.metron_tls_cert.private_key_pem ))
+      consul:
+        encrypt_keys:
+        - (( ..cf.properties.consul_encrypt_key.value ))
+        ca_cert: (( $ops_manager.ca_certificate ))
+        agent_cert: (( ..cf.properties.consul_agent_cert.cert_pem ))
+        agent_key: (( ..cf.properties.consul_agent_cert.private_key_pem ))
+        server_cert: (( ..cf.properties.consul_server_cert.cert_pem ))
+        server_key: (( ..cf.properties.consul_server_cert.private_key_pem ))
+        agent:
+          domain: cf.internal
+          servers:
+            lan: (( ..cf.consul_server.ips ))
 
 stemcell_criteria:
   os: 'ubuntu-trusty'
