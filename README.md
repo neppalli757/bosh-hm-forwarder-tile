@@ -5,7 +5,7 @@ It was built using the [tile generator](https://docs.pivotal.io/tiledev/tile-gen
 
 As it is a custom tile, it is *not* officially supported by Pivotal GSS.
 
-It is intended only to simplify the setup of bosh-hm-forwarder and save time, with the additional bonus of showing the deployment in the IOps Manager UI.
+It is intended only to simplify the setup of bosh-hm-forwarder and save time, with the additional bonus of showing the deployment in the Ops Manager UI.
 
 It includes the `consul_agent` in order to allow metron to find doppler. It uses BOSH links to pull across the relevant details from the cf deployment.
 
