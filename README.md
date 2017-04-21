@@ -1,12 +1,23 @@
 # bosh-hm-forwarder-tile
 
-Forwards Bosh health events to Metron.
+This is a custom tile release of [bosh-hm-forwarder](https://github.com/cloudfoundry/bosh-hm-forwarder).
+It was built using the [tile generator](https://docs.pivotal.io/tiledev/tile-generator.html).
+
+As it is a custom tile, it is *not* officially supported by Pivotal GSS.
+
+It is intended only to simplify the setup of bosh-hm-forwarder and save time, with the additional bonus of showing the deployment in the IOps Manager UI.
+
+It includes the `consul_agent` in order to allow metron to find doppler. It uses BOSH links to pull across the relevant details from the cf deployment.
+
+Note: This will only function out of the box against PCF 1.10 and newer, since that is the first version to expose the necessary consul properties via BOSH links. If you want this to work against older PCF versions you will need to add in the necessary properties manually.
 
 ## Setup
 
-```bash
-mkdir virtualenv
-virtualenv -p /usr/bin/python2.7 virtualenv/tile-env
-source virtualenv/tile-env/bin/activate
-pip install -r requirements.txt
-```
+Setup is simple, as it is a tile with little pre-configuration needed.
+
+1. Download the .pivotal file from the releases page
+2. Upload it to Ops Manager
+3. Click the tile and fill in the necessary AZ config page
+4. Upload the stemcell if needed
+5. Click Apply Changes
+6. You're done! If you check your firehose log stream you should be able to find `ValueMetric` lines with `origin:"bosh-hm-forwarder"` present.
