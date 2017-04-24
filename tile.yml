@@ -43,8 +43,6 @@ packages:
       metron_agent:
         deployment: cf
       loggregator:
-        etcd:
-          machines: (( ..cf.etcd_tls_server.ips ))
         tls:
           ca_cert: (( $ops_manager.ca_certificate ))
           metron:
