@@ -23,7 +23,10 @@ packages:
     - name: consul_agent
       release: consul
       consumes: |
-        consul: { from: consul_server, deployment: (( ..cf.deployment_name )) }
+        consul: nil
+        consul_common: {from: consul_common_link, deployment: (( ..cf.deployment_name ))}
+        consul_client: {from: consul_client_link, deployment: (( ..cf.deployment_name ))}
+        consul_server: {from: consul_server_link, deployment: (( ..cf.deployment_name ))}
     memory: 4096
     ephemeral_disk: 8192
     cpu: 2
