@@ -21,6 +21,6 @@ Setup is simple, as it is a tile with little pre-configuration needed.
 4. Upload the stemcell if needed
 5. Click Apply Changes
 6. Check the Status page of the new tile once it is deployed for the IP Address of the hm-forwarder/0 machine
-7. Enter that IP Address in the "Metrics IP Address" section in the Director Config of the Ops Manager Director tile
+7. Enter that IP Address in the "Metrics IP Address" section (PCF 1.10) or the "Bosh HM Forwarder IP Address" section (PCF 1.11) in the Director Config of the Ops Manager Director tile
 8. Click Apply Changes
 9. You're done! If you check your firehose log stream you should be able to find `ValueMetric` lines with `origin:"bosh-hm-forwarder"` present.
